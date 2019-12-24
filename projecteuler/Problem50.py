@@ -9,7 +9,7 @@ def IsPrime(n):
 
 def GetPrimeList(n):
     primes = list()
-    for counter in range(n+1):
+    for counter in range(3,n+1):
         if IsPrime(counter):
             primes.append(counter)
             if len(primes) % 100 == 0:
@@ -17,10 +17,11 @@ def GetPrimeList(n):
     return primes
 
 def PrintStreak(primes, start, count, total):
-    print('count ', count, ' :: ', total, ' = ', primes[start:(start+count)])
+    #print('count ', count, ' :: ', total, ' = ', primes[start:(start+count)])
+    print('count ', count, ' :: ', total , " - mark at ", start)
     
 
-n=100000
+n=1000000
 primes = (GetPrimeList(n))
 
 print("Found ", len(primes), " primes")
@@ -35,19 +36,26 @@ while streaklen <= len(primes):
 
     while True:
         if streaksum > n:
+            print("Count ", streaklen, " : no match found")
+            PrintStreak(primes, lastmark, laststreaklen, laststreaksum)
             break
 
         if (streaksum in primes):
             PrintStreak(primes, mark, streaklen, streaksum)
+            lastmark = mark
+            laststreaklen = streaklen
+            laststreaksum = streaksum
             break
 
         if (mark + streaklen >= len(primes)):
+            print("Count ", streaklen, " - no match found")
+            PrintStreak(primes, lastmark, laststreaklen, laststreaksum)
             break
         streaksum -= primes[mark]
         mark += 1
         streaksum += primes[mark+streaklen-1]
 
-    streaklen += 1
+    streaklen += 2
     mark=0
     
 
